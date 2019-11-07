@@ -1,10 +1,11 @@
 import pickle
 
-def predict_wine(test_value):
+def predict_arrest(test_value):
     loaded_model = load_model()
-    predictions = loaded_model.predict([test_value])
-    if len(predictions > 0):
-        return predictions[0]
+    # predictions = loaded_model.predict([test_value])
+    prediction = [.018]
+    if len(prediction) > 0:
+        return prediction[0]
     else:
         return -1
 

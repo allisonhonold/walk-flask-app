@@ -1,48 +1,117 @@
 <html>
   <head>
-    <title>First Flask App</title>
+    <title>Walk App</title>
     <link rel="stylesheet" media="screen" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-flat.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+      .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+      .fa-anchor,.fa-coffee {font-size:200px}
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 200px;
+        width: 400px;
+      }
+    </style>
   </head>
   <body>
-    <div class="jumbotron">
-      <div class="container">
-        <h1 class="display-3">Wine Predictor</h1>
-        <p>
-          Some cool content will go here
-        </p>
-        <p>
-          <form action="/get_results" method="post">
-            <p>Alcohol</p>
-            <input type="text" name="Alcohol" value="12.82">
-            <p>Malic acid</p>
-            <input type="text" name="Malic acid" value="3.37">
-            <p>Ash</p>
-            <input type="text" name="Ash" value="2.3">
-            <p>Alcalinity of ash</p>
-            <input type="text" name="Alcalinity of ash" value="19.5">
-            <p>Magnesium</p>
-            <input type="text" name="Magnesium" value="88.0">
-            <p>Total phenols</p>
-            <input type="text" name="Total phenols" value="1.48">
-            <p>Flavanoids</p>
-            <input type="text" name="Flavanoids" value="0.66">
-            <p>Nonflavanoid phenols</p>
-            <input type="text" name="Nonflavanoid phenols" value="0.4">
-            <p>Proanthocyanins</p>
-            <input type="text" name="Proanthocyanins" value="0.97">
-            <p>Color intensity</p>
-            <input type="text" name="Color intensity" value="10.26">
-            <p>Hue</p>
-            <input type="text" name="Hue" value="0.72">
-            <p>OD280/OD315 of diluted wines</p>
-            <input type="text" name="OD280/OD315 of diluted wines" value="1.75">
-            <p>Proline</p>
-            <input type="text" name="Proline" value="685.0">
-            <br>
-            <input type="submit" class="btn btn-primary btn-lg" value="Predict!">
-          </form>
-        </p>
+    <!-- <div class="jumbotron"> -->
+        <!-- Header -->
+    <header class="w3-container w3-flat-belize-hole w3-center" style="padding:128px 16px">
+      <h1 class="w3-margin w3-jumbo">Walk Disruption Predictor</h1>
+      <p class="w3-xlarge">Input your journey's start location and end 
+        location to check today's route safety.</p>
+      <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button> -->
+    </header>
+
+  <div style="text-align: center">
+    <form action="/get_results" method="post">
+<!-- Start -->
+      <div class="w3-row-padding w3-padding-64 w3-container">
+          <div class="w3-content">
+
+                <h1>Start</h1>
+
+                <div id="map" style="width:600px;height:400px;"></div>
+
+
+                <h5 class="w3-padding-32">Latitude:
+                    <input type="text" name="start_lat" value="40.753725" id="s_lat">
+                  </p>
+                  <p>Longitude: 
+                    <input type="text" name="start_long" value="-73.983530" id="s_lng">
+                  </p>
+                </h5>
+
+          </div>
       </div>
-    </div>
+
+      <!-- End -->
+      <div class="w3-row-padding w3-padding-64 w3-container">
+          <div class="w3-content">
+
+                <h1>End</h1>
+                <h5 class="w3-padding-32">
+                  <p>Latitude:
+                    <input type="text" name="end_lat" value="40.751211">
+                  </p>
+                  <p>Longitude: 
+                    <input type="text" name="end_long" value="-73.993365">
+                  </p>
+                </h5>
+                  <input type="submit" 
+                  button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" 
+                  value="Predict!">
+
+          </div>
+      </div>
+    </form>
+  </div>
+
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+  </script>
+
+  <script>
+    // Initialize and add the map
+    function initMap() {
+      const bryantParkLatLong = {s_lat: 40.753725, s_lng: -73.983530};
+      
+      const mapDiv = document.getElementById('map');
+      const mapProps = {
+        zoom: 13, 
+        center: bryantParkLatLong
+      };
+      
+      // The map, centered at Bryant Park
+      const map = new google.maps.Map(mapDiv, mapProps);
+      
+      const markerProps = {
+        position: bryantParkLatLong,
+        map: map,
+        draggable: true,
+        title: "Drag to choose a location"
+      };
+      
+      // The marker, positioned at Bryant Park
+      var marker = new google.maps.Marker(markerProps);
+      
+      // Add an event listener to update the lat/lng inputs based on the marker location
+      google.maps.event.addListener(marker, "dragend", (event) => {
+        const latInput = document.getElementById("s_lat");
+        const lngInput = document.getElementById("s_lng");
+
+        const newLatLng = event.latLng;
+        latInput.value = newLatLng.s_lat();
+        lngInput.value = newLatLng.s_lng();
+      });
+    }
+
+
+  </script>
   </body>
 </html>
