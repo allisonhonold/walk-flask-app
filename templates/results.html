@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>First Flask App Results</title>
+    <title>Walk App Results</title>
     <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='bootstrap.min.css') }}">
 </head>
 <body>
-    We predict that this wine is from class {{ predicted_class }}
-    <br>
+    <p>We predict that the probability of an arrest occuring on this route
+    today is {{ predicted_class }}
+    </p>
 
-    <img src="{{ url_for('static', filename='upward_sloping_chart.png') }}" alt="">
-
-    <a href="/">Go back home</a>
+    <img src="{{ url_for('static', filename='example.png') }}" alt=""
+    style="width:600px;height:400px;">
+    <br/>
+    <br/>
+    <a href="/">Return home</a>
 </body>
 </html>
