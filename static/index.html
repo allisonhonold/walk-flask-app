@@ -13,8 +13,8 @@
       .fa-anchor,.fa-coffee {font-size:200px}
       /* Set the size of the div element that contains the map */
       #map {
-        height: 200px;
-        width: 400px;
+        height: 400px;
+        width: 600px;
       }
     </style>
   </head>
@@ -23,54 +23,42 @@
         <!-- Header -->
     <header class="w3-container w3-flat-belize-hole w3-center" style="padding:128px 16px">
       <h1 class="w3-margin w3-jumbo">Walk Disruption Predictor</h1>
-      <p class="w3-xlarge">Input your journey's start location and end 
+      <p class="w3-xlarge">Adjust the markers for your journey's start and end 
         location to check today's route safety.</p>
       <!-- <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button> -->
     </header>
 
   <div style="text-align: center">
     <form action="/get_results" method="post">
-<!-- Start -->
-      <div class="w3-row-padding w3-padding-64 w3-container">
-          <div class="w3-content">
-
-                <h1>Start</h1>
-
-                <div id="map" style="width:600px;height:400px;"></div>
-
-
-                <h5 class="w3-padding-32">Latitude:
-                    <input type="text" name="start_lat" value="40.753725" id="s_lat">
-                  </p>
-                  <p>Longitude: 
-                    <input type="text" name="start_long" value="-73.983530" id="s_lng">
-                  </p>
-                </h5>
-
+      <div class="w3-display-container" style="margin-bottom:50px" id="map">
+      </div>
+      <div class="w3-row w3-container" style="margin:50px 0">
+          <div class="w3-half w3-container">
+              <h2>Start</h2>
+              <p>Latitude:
+                <input type="text" name="start_lat" value="40.753725" id="sLat">
+              </p>
+              <p>Longitude: 
+                  <input type="text" name="start_long" value="-73.983530" id="sLng">
+              </p>
+          </div>
+          <div class="w3-half w3-container">
+              <h2>End</h2>
+              <p>Latitude:
+                  <input type="text" name="end_lat" value="40.751211" id="eLat">
+                </p>
+                <p>Longitude: 
+                  <input type="text" name="end_long" value="-73.993365" id="eLng">
+                </p>
           </div>
       </div>
+      <input type="submit" 
+      button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" 
+      value="Predict!">
 
-      <!-- End -->
-      <div class="w3-row-padding w3-padding-64 w3-container">
-          <div class="w3-content">
-
-                <h1>End</h1>
-                <h5 class="w3-padding-32">
-                  <p>Latitude:
-                    <input type="text" name="end_lat" value="40.751211">
-                  </p>
-                  <p>Longitude: 
-                    <input type="text" name="end_long" value="-73.993365">
-                  </p>
-                </h5>
-                  <input type="submit" 
-                  button class="w3-button w3-black w3-padding-large w3-large w3-margin-top" 
-                  value="Predict!">
-
-          </div>
-      </div>
     </form>
   </div>
+
 
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?callback=initMap">
@@ -79,7 +67,8 @@
   <script>
     // Initialize and add the map
     function initMap() {
-      const bryantParkLatLong = {s_lat: 40.753725, s_lng: -73.983530};
+      const bryantParkLatLong = {lat: 40.753725, lng: -73.983530};
+      const highLineLatLong = {lat:40.756328, lng:-74.003536};
       
       const mapDiv = document.getElementById('map');
       const mapProps = {
@@ -90,24 +79,52 @@
       // The map, centered at Bryant Park
       const map = new google.maps.Map(mapDiv, mapProps);
       
-      const markerProps = {
+      // Set marker properties
+      const startMarkerProps = {
         position: bryantParkLatLong,
         map: map,
         draggable: true,
-        title: "Drag to choose a location"
+        title: "Drag to choose start location",
+        label: {
+          text: "S",
+          color: "white"
+        }
+      };
+
+      const endMarkerProps = {
+        position: highLineLatLong,
+        map: map,
+        draggable: true,
+        title: "Drag to choose end location",
+        label: {
+          text: "E",
+          color: "white"
+        }
       };
       
-      // The marker, positioned at Bryant Park
-      var marker = new google.maps.Marker(markerProps);
+      // The markers, positioned at Bryant Park and the High Line
+      var start_marker = new google.maps.Marker(startMarkerProps);
+      var end_marker = new google.maps.Marker(endMarkerProps);
+
       
       // Add an event listener to update the lat/lng inputs based on the marker location
-      google.maps.event.addListener(marker, "dragend", (event) => {
-        const latInput = document.getElementById("s_lat");
-        const lngInput = document.getElementById("s_lng");
+      google.maps.event.addListener(start_marker, "dragend", (event) => {
+        const latInput = document.getElementById("sLat");
+        const lngInput = document.getElementById("sLng");
 
         const newLatLng = event.latLng;
-        latInput.value = newLatLng.s_lat();
-        lngInput.value = newLatLng.s_lng();
+        latInput.value = newLatLng.lat();
+        lngInput.value = newLatLng.lng();
+      });
+
+        // Add an event listener to update the lat/lng inputs based on the marker location
+        google.maps.event.addListener(end_marker, "dragend", (event) => {
+        const latInput = document.getElementById("eLat");
+        const lngInput = document.getElementById("eLng");
+
+        const newLatLng = event.latLng;
+        latInput.value = newLatLng.lat();
+        lngInput.value = newLatLng.lng();
       });
     }
 
