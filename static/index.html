@@ -11,17 +11,19 @@
       body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
       .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
       .fa-anchor,.fa-coffee {font-size:200px}
+
       /* Set the size of the div element that contains the map */
       #map {
         height: 400px;
-        width: 100%;
+        width: 95%;
+        margin: auto;
       }
     </style>
   </head>
   <body>
     <!-- <div class="jumbotron"> -->
         <!-- Header -->
-    <header class="w3-container w3-flat-belize-hole w3-center" style="padding:128px 16px">
+    <header class="w3-container w3-flat-belize-hole w3-center" style="padding:70px 16px">
       <h1 class="w3-margin w3-jumbo">Walk Disruption Predictor</h1>
       <p class="w3-xlarge">Adjust the markers for your journey's start and end 
         location to check today's route safety.</p>
@@ -30,7 +32,8 @@
 
   <div style="text-align: center">
     <form action="/get_results" method="post">
-      <div class="w3-display-container" style="margin-bottom:50px" id="map">
+      <br/>
+      <div class="w3-display-container" id="map">
       </div>
       <div class="w3-row w3-container" style="margin:50px 0">
           <div class="w3-half w3-container">
@@ -45,10 +48,10 @@
           <div class="w3-half w3-container">
               <h2>End</h2>
               <p>Latitude:
-                  <input type="text" name="end_lat" value="40.751211" id="eLat">
+                  <input type="text" name="end_lat" value="40.756328" id="eLat">
                 </p>
                 <p>Longitude: 
-                  <input type="text" name="end_long" value="-73.993365" id="eLng">
+                  <input type="text" name="end_long" value="-74.003536" id="eLng">
                 </p>
           </div>
       </div>

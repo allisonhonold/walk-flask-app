@@ -3,16 +3,88 @@
 <head>
     <title>Walk App Results</title>
     <link rel="stylesheet" media="screen" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" media="screen" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-flat.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+      .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+      .fa-anchor,.fa-coffee {font-size:200px}
+    
+        /* Three image containers (use 25% for four, and 50% for two, etc) */
+        .column {
+        float: left;
+        width: 33.33%;
+        padding: 5px;
+        vertical-align: middle;
+        margin: auto;
+        }
+
+        /* Clear floats after image containers */
+        .row::after {
+        content: "";
+        clear: both;
+        display: flex;
+        vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-    <p>We predict that the probability of an arrest occuring on this route
-    today is {{ predicted_class }}
-    </p>
+    <header class="w3-container w3-flat-belize-hole w3-center" style="padding:70px 16px">
+            <h1 class="w3-margin w3-jumbo">Walk Disruption Prediction</h1>
+            <p class="w3-xlarge">Today's walk risk is {{ risk }}. </p>
 
-    <img src="{{ url_for('static', filename='example.png') }}" alt=""
-    style="width:600px;height:400px;">
-    <br/>
-    <br/>
-    <a href="/">Return home</a>
+    </header>
+    <div style="text-align: center">
+        <br/>
+        <iframe src="{{ url_for('static', filename=map_file_name) }}" 
+            frameborder="0" height="600", width="95%">
+        </iframe>
+        <br/>
+        <br/>
+        <p>Warning: Walk at your own risk.</p>
+        <p>{{ goog_warning }}</p>
+        <br/>
+        <br/>
+    </div> 
+    <div>
+
+    </div>
+    <div class="w3-container w3-center w3-padding-24" 
+        style="text-align: center" 
+        style="padding:96px 16px">
+        <div class="row">
+                <div class="column">
+                    <a href="/">Return home</a>
+                </div>
+                <div class="column">
+                    <a href="/static/termsofuse.html">Terms of Use</a>
+                </div>
+                <div class="column">
+                    <a href="/static/privacy.html">Privacy Policy</a>
+                </div>
+        </div>
+    </div>
+    <div class="w3-container w3-center w3-padding-24" 
+        style="text-align: center" 
+        style="padding:96px 16px">
+        <div class="row">
+            <div class="column">
+                <img src='static/powered_by_google_on_white.png'
+                    style="vertical-align:middle">
+            </div>
+            <div class="column">
+                    <img src='static/poweredby-oneline.png' height="48px" 
+                        width="212px" style="vertical-align:middle">
+            </div>
+            <div class="column">
+                    <img src='static/nyc-open-data-logo.svg' height="20px"
+                    style="vertical-align:middle">
+            </div>
+        </div>
+    </div>
 </body>
 </html>
