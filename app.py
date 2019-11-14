@@ -2,9 +2,7 @@ from flask import Flask, send_from_directory, render_template, request, abort
 from waitress import serve
 import time
 
-import sys
-sys.path.insert(1, '../walk_risk_engine')
-from results import get_backend_results
+from models.results import get_backend_results
 
 app = Flask(__name__, static_url_path="/static")
 
@@ -25,13 +23,15 @@ def get_results():
         # Convert the dict of fields into a list
         # test_value = [float(data[feature]) for feature in expected_features]
 
-        m, risk, warning = get_backend_results(str(data['start_lat']), 
+        m, risk, warning, w_summ = get_backend_results(str(data['start_lat']), 
                                                 str(data['start_long']),
                                                 str(data['end_lat']),
                                                 str(data['end_long'])
                                                 )
 
         new_map_name = ("results_map_" + str(round(time.time())) + ".html")
+
+        print(type(m), type(risk))
 
         m.save('static/' + new_map_name)
         
@@ -42,7 +42,10 @@ def get_results():
         return render_template("results.html", 
                                 risk=risk[1],
                                 goog_warning=warning,
-                                map_file_name=new_map_name
+                                map_file_name=new_map_name,
+                                weather_summary = w_summ['summary'],
+                                high = w_summ['apparentTemperatureHigh'],
+                                low = w_summ['apparentTemperatureLow']
                                 )
     else:
         return abort(400)

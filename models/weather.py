@@ -12,78 +12,7 @@ import numpy as np
 secret_loc = "/Users/allisonhonold/.secrets/dark_sky_api.json"
 
 def main():
-    """Gets the NYC weather data from dark sky API and dumps it into
-    the weather collection within the walk MongoDB.
-
-    Based on Cristian Nuno's soccer_stats/Weather_Getter and export_weather
-    https://github.com/cenuno/soccer_stats/blob/master/python/export_weather.py
-    https://github.com/cenuno/soccer_stats/blob/master/python/weathergetter.py
-    """
-    # get most recent date from NYC's year to date arrests
-    final_date_df = pd.read_csv('../nyc_ytd.csv', 
-                        usecols=['ARREST_DATE'],
-                        nrows=2)
-    final_date = datetime.strptime(final_date_df.loc[0, 'ARREST_DATE'], '%m/%d/%Y')
-    
-    # set initial date to 1/1/2006
-    initial_date = datetime.strptime('01/01/2006', '%m/%d/%Y')
-
-    # get list of dates in data range
-    dates = get_dates_list(initial_date, final_date)
-
-    # load secret key
-    with open(secret_loc, "r") as f:
-        key = json.load(f)["key"]
-
-    # store exclusions
-    excl = "?exclude=currently,minutely,hourly,alerts,flags"
-
-    # instatntiate MongoDB client
-    client = MongoClient()
-    db = client["walk"]
-    weather = db["weather"]
-
-    # set location and url
-    ny_lat_long = (40.7420, -73.9073) # atlasobscura.com
-    dk_sky_url = 'https://api.darksky.net/forecast/'
-
-    # Broken into sets in order to stay in the free use level of 
-    # darksky weather api.
-
-    # get_weather for first date - done
-    # date = dates[0]
-    # get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #             dk_sky_url, excl, key, weather)
-
-    # get_weather for next 998 dates - done
-    # for date in dates[1:999]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
-
-    # get_weather for next 1000 dates - Monday - done
-    # for date in dates[999:1999]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
-
-    # get_weather for next 1000 dates - Tues - done
-    # for date in dates[1999:2999]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
-
-    # get_weather for next 1000 dates - Weds - done
-    # for date in dates[2999:3999]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
-
-    # get_weather for next 1000 dates - Thurs - done
-    # for date in dates[3999:4999]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
-
-    # get_weather for remaining dates - Fri - done
-    # for date in dates[4999:len(dates)]:
-    #     get_weather(date, ny_lat_long[0], ny_lat_long[1],
-    #                 dk_sky_url, excl, key, weather)
+    pass
 
 
 def get_dates_list(initial_date: datetime, 

@@ -18,8 +18,14 @@ def map_predictions(start_lat, start_long, end_lat, end_long, pts_proba_df):
         m: folium map with a geojson grid overlay shaded with the predictions
     """
     m = get_basemap(start_lat, start_long, end_lat, end_long)
+
+    print(f"basemap type(m): {type(m)}")
+
     geojson_grid = get_geojson_grid(pts_proba_df)
     m = add_grid_to_map(geojson_grid, m)
+
+    print(f"after add_grid_to_map type(m): {type(m)}")
+
     return m
 
 

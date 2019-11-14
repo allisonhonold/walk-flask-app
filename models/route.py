@@ -31,6 +31,9 @@ def query_route_api(secret_loc, start_loc, end_loc):
     url = f"{base_url}&origin={start_loc}&destination={end_loc}&key={key}"
     response = requests.get(url)
     print(response.status_code, response.reason)
+
+    print(response.text)
+
     return response
 
 
@@ -59,6 +62,9 @@ def extract_route_and_warnings(response_json):
                                 geometry=gpd.points_from_xy(rte['longitude'], 
                                                             rte['latitude']))
         rte = LineString([[p.x, p.y] for p in rte['geometry']])
+
+        print(rte)
+
         return rte, warnings
 
 
@@ -83,7 +89,8 @@ def get_route(secret_loc, start_loc, end_loc):
     
     
 def get_pts_near_path(line, distance):
-    """returns all lat/longs within specified distance of line
+    """returns all lat/longs within specified distance of line that are in 
+    manhattan
     
     Args:
         line: shapely linestring of route
@@ -100,12 +107,22 @@ def get_pts_near_path(line, distance):
     miny = round(miny, 3) -0.002
     maxx = round(maxx, 3) + 0.002
     maxy = round(maxy, 3) + 0.002
+
+    # load manhattan lat_longs
+    manhattan_pts = pd.read_csv('models/man_lat_longs.csv')
+    manhattan_pts = manhattan_pts.loc[:, ['latitude', 'longitude', 'in_man']]
     
     # create a df of all lat, longs w/in bounds
     all_pts = create_pt_grid(minx, miny, maxx, maxy)
     
+    # attempting to deal with edge case - pts not in manhattan
+    # add column "in_man" indicating whether points are in manhattan
+    # all_pts = pd.merge(all_pts, manhattan_pts, 
+    #                     on=['latitude', 'longitude'],
+    #                     how='left')
     all_pts['on_path'] = get_on_path(all_pts['geometry'], distance, line)
-    return pd.DataFrame(all_pts.loc[all_pts['on_path']==True])
+    return pd.DataFrame(all_pts.loc[(all_pts['on_path']==True)]) 
+                        # & (all_pts['in_man']==True)])
 
 
 def create_pt_grid(minx, miny, maxx, maxy):
