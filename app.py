@@ -1,6 +1,5 @@
 from flask import Flask, send_from_directory, render_template, request, abort
 from waitress import serve
-from models.arrest_predictor import predict_arrest
 import time
 
 import sys
