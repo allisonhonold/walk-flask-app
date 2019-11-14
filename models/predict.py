@@ -17,7 +17,7 @@ def get_arrest_probas(pts_df, day_weather_df):
     """
     # setup dataframe for preprocessing
     inputs_df = setup_df_for_preprocessing(pts_df, day_weather_df)
-    pipeline = load_joblib_pipeline(file_path='models/pipeline.joblib')
+    pipeline = load_joblib_pipeline(file_path='models/pipeline_no_balance.joblib')
     probas = pipeline.predict_proba(inputs_df)
     return probas[:, 1]
 
