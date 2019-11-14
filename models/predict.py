@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from route import get_pts_near_path
+from models.route import get_pts_near_path
 from sqlalchemy import create_engine
 import joblib
 
@@ -17,9 +17,9 @@ def get_arrest_probas(pts_df, day_weather_df):
     """
     # setup dataframe for preprocessing
     inputs_df = setup_df_for_preprocessing(pts_df, day_weather_df)
-    pipeline = load_joblib_pipeline('pipeline.joblib')
+    pipeline = load_joblib_pipeline(file_path='models/pipeline.joblib')
     probas = pipeline.predict_proba(inputs_df)
-    return probas
+    return probas[:, 1]
 
 
 def load_joblib_pipeline(file_path='pipeline.joblib'):
@@ -67,8 +67,10 @@ def setup_df_for_preprocessing(pts_df, day_weather_df):
     pts_df['longitude'] = pts_df['longitude'].round(3)
     pts_df['latlong'] = (pts_df['latitude'].astype(str) 
                         + pts_df['longitude'].astype(str))
-    for col in day_weather_df.columns:
-        pts_df[col] = day_weather_df[col].values[0]
+    # add values of each weather feature
+    pts_df[day_weather_df.name] = day_weather_df[0]
+    # for col in day_weather_df.columns:
+    #     pts_df[col] = day_weather_df[col].values[0]
     print(pts_df)
     return pts_df
 
