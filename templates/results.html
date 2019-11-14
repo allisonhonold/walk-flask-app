@@ -37,9 +37,8 @@
             <h1 class="w3-margin w3-jumbo">Walk Disruption Prediction</h1>
             <p class="w3-xlarge">Today's walk risk is {{ risk }}.</p>
             <br/>
-            <p class="w3-xlarge">The weather is {{ weather_summary }}</p>
-            <p class="w3-xlarge">Apparent high temp: {{ high }}</p>
-            <p class="w3-xlarge"> Apparent low temp: {{ low }}</p>
+            <p class="w3-xlarge">The weather is {{ weather_summary }}\n
+                Temp: {{ low }} - {{ high }}</p>
             
 
     </header>
@@ -48,11 +47,7 @@
         <iframe src="{{ url_for('static', filename=map_file_name) }}" 
             frameborder="0" height="600", width="95%">
         </iframe>
-        <div class="row">
-            <div class="column">
-                <img src='static/color_key.png' width=100%>
-            </div>
-        </div>
+        <img src='static/color_key.png' width=600px>
         <br/>
         <p>Warning: Walk at your own risk.</p>
         <p>{{ goog_warning }}</p>
@@ -85,7 +80,7 @@
                     style="vertical-align:middle">
             </div>
             <div class="column">
-                    <img src='static/poweredby-oneline.png' height="200px" 
+                    <img src='static/poweredby-oneline.png' height="82px" 
                         width="212px" style="vertical-align:middle">
             </div>
             <div class="column">

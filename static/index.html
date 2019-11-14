@@ -48,10 +48,10 @@
           <div class="w3-half w3-container">
               <h2>End</h2>
               <p>Latitude:
-                  <input type="text" name="end_lat" value="40.756328" id="eLat">
+                  <input type="text" name="end_lat" value="40.750080" id="eLat">
                 </p>
                 <p>Longitude: 
-                  <input type="text" name="end_long" value="-74.003536" id="eLng">
+                  <input type="text" name="end_long" value="-74.001000" id="eLng">
                 </p>
           </div>
       </div>
@@ -64,14 +64,14 @@
 
 
   <script async defer
-    src="https://maps.googleapis.com/maps/api/js?callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpqnWlVkcwVS6Td0eVJDZbK4aK45iczfk&callback=initMap">
   </script>
 
   <script>
     // Initialize and add the map
     function initMap() {
       const bryantParkLatLong = {lat: 40.753725, lng: -73.983530};
-      const highLineLatLong = {lat:40.756328, lng:-74.003536};
+      const chelseaParkLatLong = {lat:40.750080, lng:-74.001000};
       
       const mapDiv = document.getElementById('map');
       const mapProps = {
@@ -95,7 +95,7 @@
       };
 
       const endMarkerProps = {
-        position: highLineLatLong,
+        position: chelseaParkLatLong,
         map: map,
         draggable: true,
         title: "Drag to choose end location",
