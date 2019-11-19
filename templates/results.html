@@ -37,18 +37,17 @@
             <h1 class="w3-margin w3-jumbo">Walk Disruption Prediction</h1>
             <p class="w3-xlarge">Today's walk risk is {{ risk }}.</p>
             <br/>
-            <p class="w3-xlarge">The weather is {{ weather_summary }}\n
-                Temp: {{ low }} - {{ high }}</p>
+            <p class="w3-xlarge">The weather is {{ weather_summary }}<br>
+                Temp Range: {{ low }} - {{ high }}</p>
             
 
     </header>
-    <div style="text-align: center">
+    <div style="text-align: center" style="padding:16px 16px">
         <br/>
         <iframe src="{{ url_for('static', filename=map_file_name) }}" 
             frameborder="0" height="600", width="95%">
         </iframe>
         <img src='static/color_key.png' width=600px>
-        <br/>
         <p>Warning: Walk at your own risk.</p>
         <p>{{ goog_warning }}</p>
         <br/>
@@ -58,7 +57,7 @@
     </div>
     <div class="w3-container w3-center w3-padding-24" 
         style="text-align: center" 
-        style="padding:96px 16px">
+        style="padding:16px 16px">
         <div class="row">
                 <div class="column">
                     <a href="/">Return home</a>
@@ -73,14 +72,14 @@
     </div>
     <div class="w3-container w3-center w3-padding-24" 
         style="text-align: center" 
-        style="padding:96px 16px">
+        style="padding:16px 16px">
         <div class="row">
             <div class="column">
                 <img src='static/powered_by_google_on_white.png'
                     style="vertical-align:middle">
             </div>
             <div class="column">
-                    <img src='static/poweredby-oneline.png' height="82px" 
+                    <img src='static/poweredby-oneline.png' height="56px" 
                         width="212px" style="vertical-align:middle">
             </div>
             <div class="column">

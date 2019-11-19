@@ -3,7 +3,7 @@ import json
 import requests
 import pandas as pd
 import polyline
-import geopandas as gpd
+# import geopandas as gpd
 from shapely.geometry import LineString, Point
 import numpy as np
 from itertools import product
@@ -58,13 +58,11 @@ def extract_route_and_warnings(response_json):
             warnings = warnings[0]
         rte = pd.DataFrame(polyline.decode(goog_polyline, geojson=True), 
                             columns=['longitude', 'latitude'])
-        rte = gpd.GeoDataFrame(rte, 
-                                geometry=gpd.points_from_xy(rte['longitude'], 
-                                                            rte['latitude']))
-        rte = LineString([[p.x, p.y] for p in rte['geometry']])
-
-        print(rte)
-
+        # rte = gpd.GeoDataFrame(rte, 
+        #                         geometry=gpd.points_from_xy(rte['longitude'], 
+        #                                                     rte['latitude']))
+        rte = LineString([[x, y] for x, y in zip(rte['longitude'], 
+                                                 rte['latitude'])])
         return rte, warnings
 
 
@@ -141,12 +139,11 @@ def create_pt_grid(minx, miny, maxx, maxy):
     lats = np.linspace(miny, maxy, n_lats)
     n_longs = round((maxx - minx)/.001) +1
     longs = np.linspace(minx, maxx, n_longs)
-    lat_long_df = pd.DataFrame(product(lats, longs), 
+    ll_df = pd.DataFrame(product(lats, longs), 
                     columns=['latitude', 'longitude'])
-    geo_df = gpd.GeoDataFrame(lat_long_df,
-                         geometry=gpd.points_from_xy(lat_long_df['longitude'], 
-                                                    lat_long_df['latitude']))
-    return geo_df
+    ll_df['geometry'] = [Point(x, y) for x, y in zip(ll_df['longitude'], 
+                                                     ll_df['latitude'])]
+    return ll_df
 
 
 def get_on_path(geom_series, dist, line):
