@@ -71,7 +71,6 @@ def setup_df_for_preprocessing(pts_df, day_weather_df):
     pts_df[day_weather_df.name] = day_weather_df[0]
     # for col in day_weather_df.columns:
     #     pts_df[col] = day_weather_df[col].values[0]
-    print(pts_df)
     return pts_df
 
 

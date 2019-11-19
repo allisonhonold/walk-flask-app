@@ -113,7 +113,7 @@ def add_grid_to_map(grid, m):
         folium map
     """
     for geo_json in grid:
-        color = pyplot.cm.Reds(geo_json['properties']['proba'])
+        color = pyplot.cm.Reds(geo_json['properties']['proba']*4)
         color = mpl.colors.to_hex(color)
         gj = folium.GeoJson(geo_json,
                             style_function=lambda feature, color=color: {
