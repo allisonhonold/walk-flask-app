@@ -9,16 +9,17 @@ import numpy as np
 from itertools import product
 from haversine import haversine, Unit
 from shapely.ops import nearest_points
+import os
 
 def main():
     pass
 
 
-def query_route_api(secret_loc, start_loc, end_loc):
+def query_route_api(secret_key, start_loc, end_loc):
     """queries the google maps api for walking route information
 
     Args:
-        secret_loc: path to location of google api key
+        secret_key: google routes api key
         start_loc: "lat,long" string of desired starting location for route
         end_loc: "lat,long" string of desired ending location for route
 
@@ -26,14 +27,9 @@ def query_route_api(secret_loc, start_loc, end_loc):
         response: google directions walking response
     """
     base_url = 'https://maps.googleapis.com/maps/api/directions/json?mode=walking'
-    with open(secret_loc, "r") as f:
-        key = json.load(f)['key']
-    url = f"{base_url}&origin={start_loc}&destination={end_loc}&key={key}"
+    url = f"{base_url}&origin={start_loc}&destination={end_loc}&key={secret_key}"
     response = requests.get(url)
     print(response.status_code, response.reason)
-
-    print(response.text)
-
     return response
 
 
@@ -66,11 +62,11 @@ def extract_route_and_warnings(response_json):
         return rte, warnings
 
 
-def get_route(secret_loc, start_loc, end_loc):
+def get_route(secret_key_google, start_loc, end_loc):
     """Calls to Google Service API to return the recommended route.
     
     Args:
-        secret_loc: location of file with api key
+        secret_key_google: google routes api key
         start_loc: starting location of the desired walk 
             (lat,long stringw/out spaces)
         end_loc: ending location of the desired walk 
@@ -80,7 +76,7 @@ def get_route(secret_loc, start_loc, end_loc):
         route: shapely line of the recommended path
         warnings: route-related warnings for display
     """
-    response = query_route_api(secret_loc, start_loc, end_loc)
+    response = query_route_api(secret_key_google, start_loc, end_loc)
     resp_json = json.loads(response.text)
     route, warnings = extract_route_and_warnings(resp_json)
     return route, warnings
