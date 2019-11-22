@@ -8,9 +8,6 @@ from typing import List
 import pandas as pd
 import numpy as np
 
-# secret file location
-secret_loc = "/Users/allisonhonold/.secrets/dark_sky_api.json"
-
 def main():
     pass
 

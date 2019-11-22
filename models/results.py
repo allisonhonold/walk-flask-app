@@ -6,10 +6,11 @@ from models.mapping import map_predictions
 from models.predict import get_arrest_probas, get_risk
 import json
 import pandas as pd
+import os
 
 # global constants
-secret_location_goog = '/Users/allisonhonold/.secrets/google_maps_api.json'
-secret_loc_weather = "/Users/allisonhonold/.secrets/dark_sky_api.json"
+secret_key_goog = os.environ.get('GOOGLE_MAPS_ROUTE_KEY')
+weather_key = os.environ.get('DARK_SKY_KEY')
 
 def get_backend_results(start_lat, start_long, end_lat, end_long):
     """gets the walk risk results for a path on the day called
@@ -25,21 +26,15 @@ def get_backend_results(start_lat, start_long, end_lat, end_long):
         risk rating: overall risk rating (#, string)
         warning: warning supplied by google routes for display
     """
-    # load weather secret key
-    with open(secret_loc_weather, "r") as f:
-        weather_key = json.load(f)["key"]
-
-    print('weather key laoded')
 
     # combine lat/longs into start_loc, end_loc
     start_loc = start_lat + ',' + start_long
     end_loc = end_lat + ',' + end_long
 
     # get route and weather from APIs
-    route, warning = get_route(secret_location_goog, start_loc, end_loc)
+    route, warning = get_route(secret_key_goog, start_loc, end_loc)
     today = datetime.today()
     weather = get_weather(today, start_lat, start_long, weather_key)
-    print(weather)
     weather_summary = weather['daily']['data'][0]
 
     # process weather, path to get predictions, map, relative risk
