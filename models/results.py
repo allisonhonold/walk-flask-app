@@ -8,9 +8,13 @@ import json
 import pandas as pd
 import os
 
-# global constants
-secret_key_goog = os.environ.get('GOOGLE_MAPS_ROUTE_KEY')
-weather_key = os.environ.get('DARK_SKY_KEY')
+# global constants importing from Heroku configuration variables
+secret_key_goog = os.environ.get("GOOGLE_MAPS_ROUTE_KEY", None)
+weather_key = os.environ.get("DARK_SKY_KEY", None)
+print(secret_key_goog)
+print(type(secret_key_goog))
+print(weather_key)
+print(type(weather_key))
 
 def get_backend_results(start_lat, start_long, end_lat, end_long):
     """gets the walk risk results for a path on the day called
