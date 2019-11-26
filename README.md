@@ -1,4 +1,18 @@
-# Capstone Flask App Template
+# WalkSafe Flask App
+
+## Purpose
+
+This repo contains a flask app that, when deployed, allows users to mark their start and end location on a Google Map, and then displays a map of the relative walk safety along the route recommended by Google's Route API.
+
+## How it works
+
+1) The user inputs the start and end locations
+
+2) The app calls the Dark Sky API for the day's weather information and Google Maps API for the recommended route.
+
+3) The locations and weather data are fed to the model to predict for each location. (Learn more about the model in this [repo] https://github.com/allisonhonold/walk_risk_engine)
+
+4) The predictions are displayed for the user along with an overall risk rating and the weather.
 
 ## Requirements
 
@@ -11,10 +25,6 @@ conda activate flask-env
 pip install -r requirements.txt
 ```
 
-You will likely need to install additional packages to support your deployment.  With the `flask-env` activated, you can run `conda install <package-name>`.  Once you are ready to deploy, you can generate your own `requirements.txt` for reproducibility purposes with:
-```bash
-pip freeze > requirements.txt
-```
 ## Running the Flask Application
 
 To run in a development environment (on your local computer)
