@@ -96,7 +96,7 @@ def get_pts_near_path(line, distance):
     # get line bounds
     (minx, miny, maxx, maxy) = line.bounds
     
-    # extract values with buffer area
+    # extract max/min values with buffer area
     minx = round(minx, 3) -0.002
     miny = round(miny, 3) -0.002
     maxx = round(maxx, 3) + 0.002
@@ -109,14 +109,14 @@ def get_pts_near_path(line, distance):
     # create a df of all lat, longs w/in bounds
     all_pts = create_pt_grid(minx, miny, maxx, maxy)
     
-    # attempting to deal with edge case - pts not in manhattan
-    # add column "in_man" indicating whether points are in manhattan
-    # all_pts = pd.merge(all_pts, manhattan_pts, 
-    #                     on=['latitude', 'longitude'],
-    #                     how='left')
+    # remove pts not in manhattan
+    all_pts = pd.merge(all_pts, manhattan_pts, 
+                         on=['latitude', 'longitude'],
+                         how='inner')
+
+    # flag points in the grid in manhattan as on/within distance of path
     all_pts['on_path'] = get_on_path(all_pts['geometry'], distance, line)
-    return pd.DataFrame(all_pts.loc[(all_pts['on_path']==True)]) 
-                        # & (all_pts['in_man']==True)])
+    return pd.DataFrame(all_pts.loc[(all_pts['on_path']==True)])
 
 
 def create_pt_grid(minx, miny, maxx, maxy):
