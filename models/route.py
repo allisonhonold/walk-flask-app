@@ -104,6 +104,10 @@ def get_pts_near_path(line, distance):
 
     # load manhattan lat_longs
     manhattan_pts = pd.read_csv('models/man_lat_longs.csv')
+
+    # brute force fix for floating point error
+    manhattan_pts['latitude'] = manhattan_pts['lat1000']/1000
+    manhattan_pts['longitdue'] = manhattan_pts['long1000']/1000
     manhattan_pts = manhattan_pts.loc[:, ['latitude', 'longitude', 'in_man']]
     
     # create a df of all lat, longs w/in bounds
