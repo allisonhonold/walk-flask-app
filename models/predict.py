@@ -74,7 +74,7 @@ def setup_df_for_preprocessing(pts_df, day_weather_df):
     return pts_df
 
 
-def get_risk(path, day_weather, cutoffs=[.1, .2, .3, .4]):
+def get_risk(path, day_weather, cutoffs=[.05, .1, .15, .2]):
     """gets the relative risk of a path.
 
     Args:
