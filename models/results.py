@@ -11,10 +11,12 @@ import os
 # global constants importing from Heroku configuration variables
 secret_key_goog = os.environ.get("GOOGLE_MAPS_ROUTE_KEY", None)
 weather_key = os.environ.get("DARK_SKY_KEY", None)
-print(secret_key_goog)
-print(type(secret_key_goog))
-print(weather_key)
-print(type(weather_key))
+
+# global constants importing from secrets files
+# with open("/Users/allisonhonold/.secrets/dark_sky_api.json", "r") as f:
+#     weather_key = json.load(f)["key"]
+# with open("/Users/allisonhonold/.secrets/google_maps_api.json", "r") as f:
+#     secret_key_goog = json.load(f)["key"]
 
 def get_backend_results(start_lat, start_long, end_lat, end_long):
     """gets the walk risk results for a path on the day called
