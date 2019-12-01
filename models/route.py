@@ -103,19 +103,15 @@ def get_pts_near_path(line, distance):
     maxy = round(maxy, 3) + 0.002
 
     # load manhattan lat_longs
-    manhattan_pts = pd.read_csv('models/man_lat_longs.csv')
-
-    # brute force fix for floating point error
-    manhattan_pts['latitude'] = manhattan_pts['lat1000']/1000
-    manhattan_pts['longitdue'] = manhattan_pts['long1000']/1000
-    manhattan_pts = manhattan_pts.loc[:, ['latitude', 'longitude', 'in_man']]
+    manhattan_pts = pd.read_csv('models/man_lat_longs.csv', 
+                                usecols=['lat1000', 'long1000'])
     
     # create a df of all lat, longs w/in bounds
     all_pts = create_pt_grid(minx, miny, maxx, maxy)
     
     # remove pts not in manhattan
     all_pts = pd.merge(all_pts, manhattan_pts, 
-                         on=['latitude', 'longitude'],
+                         on=['lat1000', 'long1000'],
                          how='inner')
 
     # flag points in the grid in manhattan as on/within distance of path
@@ -135,12 +131,12 @@ def create_pt_grid(minx, miny, maxx, maxy):
 
     Returns: DataFrame of all lat/long combinations in region
     """
-    n_lats = round((maxy-miny)/.001) +1
-    lats = np.linspace(miny, maxy, n_lats)
-    n_longs = round((maxx - minx)/.001) +1
-    longs = np.linspace(minx, maxx, n_longs)
+    lats = range(int(miny*1000), int(maxy*1000 +1))
+    longs = range(int(minx*1000), int(maxx*1000 +1))
     ll_df = pd.DataFrame(product(lats, longs), 
-                    columns=['latitude', 'longitude'])
+                    columns=['lat1000', 'long1000'])
+    ll_df['latitude'] = ll_df['lat1000']/1000
+    ll_df['longitude'] = ll_df['long1000']/1000
     ll_df['geometry'] = [Point(x, y) for x, y in zip(ll_df['longitude'], 
                                                      ll_df['latitude'])]
     return ll_df
